@@ -8,14 +8,14 @@ export default defineConfig({
     react(),
 
     federation({
-      name: "todo-components",
+      name: "editor-components",
       filename: "remoteEntry.js",
       exposes: {
         // "./List": "./src/components/List.tsx",
-        "./Input": "./src/components/Input.tsx",
+        // "./Input": "./src/components/Input.tsx",
         "./MantineProviderWarper": "./src/components/MantineProviderWarper.tsx",
         "./ThemeChangerIcon": "./src/components/colorSchemeChanger.tsx",
-        "./EditorComponent":"./src/components/editor/Editor-comp.tsx",
+        // "./EditorComponent":"./src/components/editor/Editor-comp.tsx",
         "./Editor": "./src/components/Editor.tsx",
       },
       shared: ["react", "react-dom"],

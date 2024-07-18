@@ -9,7 +9,8 @@ export default defineConfig({
     federation({
       name: "host-app",
       remotes: {
-        todo_components: "http://localhost:4173/assets/remoteEntry.js",
+        editor_components:
+          "http://localhost:4173/assets/remoteEntry.js",
       },
       shared: ["react", "react-dom"],
     }),

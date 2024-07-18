@@ -1,5 +1,6 @@
 import {
-  Link, RichTextEditor,
+  Link,
+  RichTextEditor,
   useRichTextEditorContext,
 } from "@mantine/tiptap";
 import { mergeAttributes, useEditor } from "@tiptap/react";
@@ -22,12 +23,31 @@ import { Color } from "@tiptap/extension-color";
 
 // import "./editor-table.css";
 import "./editor.css";
-import { Group, Menu, Modal, rem, Tabs, Text } from "@mantine/core";
+import { Group, Menu, Modal, rem, Tabs, Text, TextInput } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { IconColumnInsertLeft, IconColumnInsertRight, IconColumnRemove, IconPhoto, IconRowInsertBottom, IconRowInsertTop, IconRowRemove, IconTable, IconTableMinus, IconTablePlus, IconUpload, IconX } from "@tabler/icons-react";
+import {
+  IconColumnInsertLeft,
+  IconColumnInsertRight,
+  IconColumnRemove,
+  IconPhoto,
+  IconRowInsertBottom,
+  IconRowInsertTop,
+  IconRowRemove,
+  IconTable,
+  IconTableMinus,
+  IconTablePlus,
+  IconUpload,
+  IconX,
+} from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-
+import jsx from "highlight.js/lib/languages/javascript";
+import tsx from "highlight.js/lib/languages/typescript";
 const lowlight = createLowlight(common);
+
+// register languages that you are planning to use
+lowlight.register({ tsx });
+lowlight.register({ jsx });
+
 function EditorDemo({
   content,
   onUpdate,
@@ -43,7 +63,11 @@ function EditorDemo({
         codeBlock: false,
       }),
       Underline,
-      Link,
+      Link.configure({
+        HTMLAttributes: {
+          target: "_blank",
+        },
+      }),
       Superscript,
       SubScript,
       Highlight,
@@ -61,7 +85,6 @@ function EditorDemo({
     ],
     content: content,
     onUpdate: ({ editor }) => {
-      console.log(editor.getHTML());
       onUpdate && onUpdate(editor.getHTML());
     },
   });
@@ -145,19 +168,18 @@ function EditorDemo({
           </RichTextEditor.ControlsGroup>
         </RichTextEditor.Toolbar>
       )}
-        <RichTextEditor.Content/>
+      <RichTextEditor.Content />
     </RichTextEditor>
   );
 }
 
 export default EditorDemo;
 
-
 function CustomImageControl() {
   const { editor } = useRichTextEditorContext();
   const [opened, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [url, setUrl] = useState("");
   const handleImageUpload = (file: File) => {
     if (file) {
       setIsLoading(true);
@@ -176,20 +198,48 @@ function CustomImageControl() {
     }
   };
 
-  const handleClick = () => {
+  const handleImageUploadUrl = (url: string) => {
+    if (
+      url &&
+      url.length > 0 &&
+      (url.startsWith("http") ||
+      url.startsWith("https"))
+    ) {
+      setIsLoading(true);
+      editor
+        ?.chain()
+        .focus()
+        .setImage({ src: `${url}` })
+        .run();
+      setIsLoading(false);
+    }
+    close();
+  };
+
+  const handleModalOpen = () => {
     // fileInputRef.current?.click();
     open();
   };
 
+  const handleModalClose = () => {
+    setIsLoading(true);
+    if(url.length > 0 && (url.startsWith("http") || url.startsWith("https"))){
+      handleImageUploadUrl(url);
+      setIsLoading(false);
+    }
+    close();
+  };
+
+
   return (
     <>
-      <Modal opened={opened} onClose={close} centered>
+      <Modal opened={opened} onClose={handleModalClose} centered>
         {/* Modal content */}
         <Tabs defaultValue="first" activateTabWithKeyboard={false}>
           <Tabs.List>
-            <Tabs.Tab value="first">Teal tab</Tabs.Tab>
+            <Tabs.Tab value="first">Select File</Tabs.Tab>
             <Tabs.Tab value="second" color="blue">
-              Blue tab
+              Use Url
             </Tabs.Tab>
           </Tabs.List>
 
@@ -256,8 +306,13 @@ function CustomImageControl() {
           </Tabs.Panel>
 
           <Tabs.Panel value="second" pt="xs">
-            Second tab color is blue, it gets this value from props, props have
-            the priority and will override context value
+            <TextInput
+              label="Image URL"
+              placeholder="https:// or http://"
+              onChange={(event) => {
+                setUrl(event.currentTarget.value);
+              }}
+            />
           </Tabs.Panel>
         </Tabs>
       </Modal>
@@ -268,7 +323,7 @@ function CustomImageControl() {
         ref={fileInputRef}
         onChange={handleImageUpload}
       /> */}
-      <RichTextEditor.Control onClick={() => handleClick()}>
+      <RichTextEditor.Control onClick={() => handleModalOpen()}>
         <IconPhoto stroke={1.5} size="1rem" />
       </RichTextEditor.Control>
     </>

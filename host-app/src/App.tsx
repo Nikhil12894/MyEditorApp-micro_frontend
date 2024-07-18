@@ -1,17 +1,15 @@
 import './App.css';
-// import List from "todo_components/List";
-// import Input from "todo_components/Input";
-import ThemeChangerIcon from "todo_components/ThemeChangerIcon";
-import MantineProviderWarper from "todo_components/MantineProviderWarper";
-import EditorComponent from "todo_components/EditorComponent";
-import Editor from "todo_components/Editor";
+// import List from "editor_components/List";
+// import Input from "editor_components/Input";
+import ThemeChangerIcon from "editor_components/ThemeChangerIcon";
+import MantineProviderWarper from "editor_components/MantineProviderWarper";
+import Editor from "editor_components/Editor";
 import { useState } from 'react';
 function App() {
-    const [isEditorEnabled, setIsEditorEnabled] = useState(true);
+    const [isEditorEnabled, setIsEditorEnabled] = useState(false);
 
  
  function onUpdate(content: string) {
-   // console.log(content);
    localStorage.setItem("Editor-content", content);
  }
 
@@ -27,11 +25,11 @@ function App() {
           onThemeChange={(theme: string) => console.log(theme)}
         />
 
-        <EditorComponent
+        {/* <EditorComponent
           content={content ?? ""}
           isEnabled={isEditorEnabled}
           onUpdate={(e: string) => onUpdate(e)}
-        />
+        /> */}
 
         <Editor content={content ?? ""} onUpdate={(e: string) => onUpdate(e)}  isEnabled={isEditorEnabled}/>  
       </MantineProviderWarper>
