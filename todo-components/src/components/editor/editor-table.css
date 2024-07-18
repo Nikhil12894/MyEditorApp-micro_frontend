@@ -1,0 +1,45 @@
+/* Define CSS variables for light and dark modes */
+:root {
+    --table-header-bg-light: #f0f0f0;
+    --table-header-bg-dark: #333;
+    --table-header-color-light: #000;
+    --table-header-color-dark: #fff;
+    --table-cell-bg-light: #fff;
+    --table-cell-bg-dark: #222;
+    --table-cell-color-light: #000;
+    --table-cell-color-dark: #fff;
+    --table-border-light: #ddd;
+    --table-border-dark: #444;
+}
+
+/* Light mode styles */
+.light .custom-table-header {
+    background-color: var(--table-header-bg-light);
+    color: var(--table-header-color-light);
+    border: 1px solid var(--table-border-light);
+}
+
+.light .custom-table-cell {
+    background-color: var(--table-cell-bg-light);
+    color: var(--table-cell-color-light);
+    border: 1px solid var(--table-border-light);
+}
+
+/* Dark mode styles */
+.dark .custom-table-header {
+    background-color: var(--table-header-bg-dark);
+    color: var(--table-header-color-dark);
+    border: 1px solid var(--table-border-dark);
+}
+
+.dark .custom-table-cell {
+    background-color: var(--table-cell-bg-dark);
+    color: var(--table-cell-color-dark);
+    border: 1px solid var(--table-border-dark);
+}
+
+/* Common styles */
+.custom-table-header,
+.custom-table-cell {
+    padding: 8px;
+}
