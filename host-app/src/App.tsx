@@ -21,6 +21,7 @@ function App() {
     const data= await fileToBase64(file);
      return data;
    }
+   return "";
  };
   return (
     <div>
