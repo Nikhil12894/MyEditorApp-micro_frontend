@@ -24,6 +24,7 @@ declare module "editor_components/Editor" {
     content?: string;
     isEnabled?: boolean;
     onUpdate?: (value: string) => void;
+    onImageUpload?:  (files: File) =>  Promise<string>|string;
   }
   const Editor: React.ComponentType<EditorProps>;
   export default Editor;

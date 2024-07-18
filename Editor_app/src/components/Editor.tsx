@@ -52,10 +52,12 @@ function EditorDemo({
   content,
   onUpdate,
   isEnabled = true,
+  onImageUpload,
 }: {
   content: string;
   onUpdate?: (e: string) => void;
   isEnabled?: boolean;
+  onImageUpload?: (files: File) => string;
 }) {
   const editor = useEditor({
     extensions: [
@@ -158,7 +160,7 @@ function EditorDemo({
           </RichTextEditor.ControlsGroup>
 
           <RichTextEditor.ControlsGroup>
-            <CustomImageControl />
+            <CustomImageControl onImageUpload={onImageUpload} />
             <InsertTableControl />
           </RichTextEditor.ControlsGroup>
 
@@ -175,35 +177,35 @@ function EditorDemo({
 
 export default EditorDemo;
 
-function CustomImageControl() {
+function CustomImageControl({
+  onImageUpload,
+}: {
+  onImageUpload?: (file: File) => string;
+}) {
   const { editor } = useRichTextEditorContext();
   const [opened, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
   const [url, setUrl] = useState("");
-  const handleImageUpload = (file: File) => {
-    if (file) {
+  const handleImageUpload = async (file: File) => {
+    if (file && onImageUpload) {
       setIsLoading(true);
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result;
-        editor
-          ?.chain()
-          .focus()
-          .setImage({ src: `${base64String}` })
-          .run();
-        close();
-        setIsLoading(false);
-      };
+      const src = await onImageUpload(file);
+      editor
+        ?.chain()
+        .focus()
+        .setImage({ src: `${src}` })
+        .run();
+      setIsLoading(false);
     }
+    close();
+
   };
 
   const handleImageUploadUrl = (url: string) => {
     if (
       url &&
       url.length > 0 &&
-      (url.startsWith("http") ||
-      url.startsWith("https"))
+      (url.startsWith("http") || url.startsWith("https"))
     ) {
       setIsLoading(true);
       editor
@@ -223,13 +225,12 @@ function CustomImageControl() {
 
   const handleModalClose = () => {
     setIsLoading(true);
-    if(url.length > 0 && (url.startsWith("http") || url.startsWith("https"))){
+    if (url.length > 0 && (url.startsWith("http") || url.startsWith("https"))) {
       handleImageUploadUrl(url);
       setIsLoading(false);
     }
     close();
   };
-
 
   return (
     <>
