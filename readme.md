@@ -75,7 +75,7 @@ export default defineConfig({
     federation({
       name: "<Any name>",
       remotes: {
-        microFrontend: "http://localhost:4173//assets/remoteEntry.js",
+        microFrontend: "http://localhost:4173/assets/remoteEntry.js",
       },
       shared: ["react", "react-dom"],
     }),
