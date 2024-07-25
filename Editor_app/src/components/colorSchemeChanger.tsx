@@ -27,9 +27,7 @@ const ThemeChangerIcon = ({
     getInitialValueInEffect: true,
   });
   const onThemeChangeHandler = () => {
-    const currentTheme = computedColorScheme === "light" ? "dark" : "light";
-    // onThemeChange(currentTheme);
-    setColorScheme(setTheme() || currentTheme);
+    setColorScheme(setTheme() || 'auto');
   };
 
   return (

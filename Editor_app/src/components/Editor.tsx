@@ -73,10 +73,9 @@ function EditorDemo({
   setTheme?: () => MantineColorScheme;
 }) {
   const { setColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme("light", {
-    getInitialValueInEffect: true,
-  });
-
+const computedColorScheme = useComputedColorScheme("light", {
+  getInitialValueInEffect: true,
+});
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -110,10 +109,8 @@ function EditorDemo({
   });
 
   useEffect(() => {
-    const currentTheme = computedColorScheme === "light" ? "dark" : "light";
-    // onThemeChange(currentTheme);
-    setColorScheme((setTheme && setTheme()) || currentTheme);
-  }, [setTheme, computedColorScheme, setColorScheme]);
+    setColorScheme((setTheme && setTheme()) || computedColorScheme);
+  }, [setTheme, setColorScheme, computedColorScheme]);
 
   useEffect(() => {
     if (editor) {
