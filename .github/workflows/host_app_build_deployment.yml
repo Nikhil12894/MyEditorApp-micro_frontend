@@ -19,6 +19,7 @@ on:
 env:
   MENIFEST_FILE_NAME: micro-frontend-editor.k8s.yaml
   DIST_REPO_NEM: argocd_repo
+  DIRECTORY: host_app_cdk8s
 
 jobs:
   build:
@@ -47,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: micro-frontend-build-artifact
-          path: ${{ github.workspace }}/cdk8s/dist/${{ env.MENIFEST_FILE_NAME}} # Adjust the path to your generated YAML file
+          path: ${{ github.workspace }}/${{env.DIRECTORY}}/dist/${{ env.MENIFEST_FILE_NAME}} # Adjust the path to your generated YAML file
 
   update:
     runs-on: ubuntu-latest
