@@ -1,0 +1,120 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: K8s Build and Deploy
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "editor_app_cdk8s/**"
+      - ".github/workflows/editor_app_build_deployment.yml"
+
+    # pull_request:
+    #   branches: [ "main" ]
+# defaults:
+#   run:
+#     working-directory: cdk8s
+
+env:
+  MENIFEST_FILE_NAME: editor-root.k8s.yaml
+  DIST_REPO_NEM: argocd_repo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cdk8s
+    steps:
+      # - name: print pwd
+      #   run: pwd
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # - name: add cdk8s-cli
+      #   run: npm i -g cdk8s-cli
+      # - name: import cdk8s
+      #   run: cdk8s import
+      - name: run npm install
+        run: npm ci
+      - name: run npm synt
+        run: npm run synth
+
+      - name: Upload deployment manifest file generated in the build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: ${{ github.workspace }}/cdk8s/dist/${{ env.MENIFEST_FILE_NAME}} # Adjust the path to your generated YAML file
+
+  update:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download build artifacts from the build job
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+      - name: Read data
+        run: cat ${{ github.workspace }}/${{ env.MENIFEST_FILE_NAME}}
+
+      - name: replace the github sha
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: "**/**.yaml"
+          search-text: "sha: will_be_Replaced"
+          replacement-text: "sha: ${{ github.sha  }}"
+          exclude: "node_modules/**"
+          encoding: "utf8"
+          max-parallelism: 10
+      - name: print deployment
+        run: cat ${{ github.workspace }}/${{ env.MENIFEST_FILE_NAME}}
+      - name: Upload deployment manifest file generated in the build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-artifact
+          path: ${{ github.workspace }}/
+
+  push_to_argo_repo:
+    runs-on: ubuntu-latest
+    needs: update
+
+    steps:
+      - name: Download updated artifacts from the update job
+        uses: actions/download-artifact@v4
+        with:
+          name: update-artifact
+      - name: Read data
+        run: cat ${{ github.workspace }}/${{ env.MENIFEST_FILE_NAME}}
+
+      - name: Checkout target repository i.e ${{ env.DIST_REPO_NEM}}
+        uses: actions/checkout@v4
+        with:
+          repository: Nikhil12894/${{ env.DIST_REPO_NEM}} # Replace with the owner and name of the target repo
+          path: "./${{ env.DIST_REPO_NEM}}"
+          ref: main
+          token: ${{ secrets.PAT_TOKEN }} # Use the personal access token for authentication
+
+      - name: Copy artifacts to target repository
+        run: |
+          mkdir -p ${{ github.workspace }}/${{ env.DIST_REPO_NEM}}/${{ github.event.repository.name }}
+          ls ${{ github.workspace }}/${{ env.DIST_REPO_NEM}}
+          cp -f ${{ github.workspace }}/*.yaml ./${{ env.DIST_REPO_NEM}}/${{ github.event.repository.name }}/${{ github.event.repository.name }}.yaml  # Adjust the path as needed
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        run: |
+          cd ${{ env.DIST_REPO_NEM}}
+          git add .
+          git commit -m "Add/updated generated YAML file ${{ github.event.repository.name }} with run ${{github.run_number}} ${{github.run_id}}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

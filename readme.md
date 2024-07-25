@@ -1,6 +1,7 @@
 ### How to create Micro Frontend Using React Vite app and vite-plugin-federation
 
 ### Remote app
+### *Demo*: [Editor app](https://app-editor.learnwithnk.in/)
 1. Create a remote app from which will host the actual component.
    
 Install vite-plugin-federation plugin
@@ -57,6 +58,8 @@ I'm importing as default the federation of the plugin, and we need to provide so
 And even if the other application that consumes it is in react, the module federations plugin will define the import and if you already have it, it will not reimport.
 ---
 ### Host App
+
+### *Demo*: [Host-app](https://micro-frontend-editor.learnwithnk.in/)
 6. Now create Host app using vite
 7. run `npm install -D @originjs/vite-plugin-federation`
 8. add blow config in `vite.config.ts`
