@@ -104,7 +104,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/${{ env.DIST_REPO_NEM}}/${{ github.event.repository.name }}
           ls ${{ github.workspace }}/${{ env.DIST_REPO_NEM}}
-          cp -f ${{ github.workspace }}/*.yaml ./${{ env.DIST_REPO_NEM}}/${{ github.event.repository.name }}/${{ github.event.repository.name }}.yaml  # Adjust the path as needed
+          cp -f ${{ github.workspace }}/*.yaml ./${{ env.DIST_REPO_NEM}}/${{ github.event.repository.name }}/${{ env.MENIFEST_FILE_NAME }} # Adjust the path as needed
 
       - name: Configure Git
         run: |
