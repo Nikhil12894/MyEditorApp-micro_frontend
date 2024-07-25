@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
+
 declare module "editor_components/ThemeChangerIcon" {
     type MantineSize = "xs" | "sm" | "md" | "lg" | "xl";
     interface ThemeChangerIconProps {
-      onThemeChange: (theme: string) => void;
+      setTheme?: () => EditorTheme;
       iconStroke?: number;
       iconSize?: MantineSize | (string & {}) | number;
     }
@@ -20,11 +21,14 @@ declare module "editor_components/MantineProviderWarper" {
 }
 
 declare module "editor_components/Editor" {
+  export type Theme = "dark" | "light" | "auto";
+ 
   interface EditorProps {
     content?: string;
     isEnabled?: boolean;
     onUpdate?: (value: string) => void;
-    onImageUpload?:  (files: File) =>  Promise<string>|string;
+    onImageUpload?: (files: File) => Promise<string> | string;
+    setTheme?: () => Theme;
   }
   const Editor: React.ComponentType<EditorProps>;
   export default Editor;

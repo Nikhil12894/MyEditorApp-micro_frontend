@@ -5,17 +5,20 @@ import {
   useMantineColorScheme,
   useComputedColorScheme,
   MantineSize,
+  MantineColorScheme,
 } from "@mantine/core";
 import { IconSun, IconMoon } from "@tabler/icons-react";
 import cx from "clsx";
 import classes from "./ColorSchema.module.css";
 
 const ThemeChangerIcon = ({
-  onThemeChange,
-  iconStroke=2,
-  iconSize="md",
+  // onThemeChange,
+  setTheme,
+  iconStroke = 2,
+  iconSize = "md",
 }: {
-  onThemeChange: (theme: string) => void;
+  // onThemeChange: (theme: string) => void;
+  setTheme: () => MantineColorScheme | null;
   iconStroke?: number;
   iconSize?: MantineSize | (string & {}) | number;
 }) => {
@@ -25,8 +28,8 @@ const ThemeChangerIcon = ({
   });
   const onThemeChangeHandler = () => {
     const currentTheme = computedColorScheme === "light" ? "dark" : "light";
-    onThemeChange(currentTheme);
-    setColorScheme(currentTheme);
+    // onThemeChange(currentTheme);
+    setColorScheme(setTheme() || currentTheme);
   };
 
   return (
@@ -44,7 +47,7 @@ const ThemeChangerIcon = ({
       ) : (
         <IconMoon
           className={cx(classes.icon, classes.dark)}
-          stroke={iconStroke }
+          stroke={iconStroke}
         />
       )}
     </ActionIcon>

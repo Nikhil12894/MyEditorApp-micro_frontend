@@ -3,28 +3,39 @@ import {
   RichTextEditor,
   useRichTextEditorContext,
 } from "@mantine/tiptap";
-import { mergeAttributes, useEditor } from "@tiptap/react";
+import { Color } from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
-import { useEffect, useState } from "react";
-import { CustomCodeBlockLowlight } from "./custom-code-block";
-import { common, createLowlight } from "lowlight";
-import ImageResize from "tiptap-extension-resize-image";
+import Superscript from "@tiptap/extension-superscript";
 import Table from "@tiptap/extension-table";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
+import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
-import { Color } from "@tiptap/extension-color";
+import Underline from "@tiptap/extension-underline";
+import { mergeAttributes, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { common, createLowlight } from "lowlight";
+import { useEffect, useState } from "react";
+import ImageResize from "tiptap-extension-resize-image";
+import { CustomCodeBlockLowlight } from "./custom-code-block";
 
 // import "./editor-table.css";
-import "./editor.css";
-import { Group, Menu, Modal, rem, Tabs, Text, TextInput } from "@mantine/core";
+import {
+  Group,
+  MantineColorScheme,
+  Menu,
+  Modal,
+  rem,
+  Tabs,
+  Text,
+  TextInput,
+  useComputedColorScheme,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconColumnInsertLeft,
   IconColumnInsertRight,
@@ -39,9 +50,9 @@ import {
   IconUpload,
   IconX,
 } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
 import jsx from "highlight.js/lib/languages/javascript";
 import tsx from "highlight.js/lib/languages/typescript";
+import "./editor.css";
 const lowlight = createLowlight(common);
 
 // register languages that you are planning to use
@@ -53,12 +64,19 @@ function EditorDemo({
   onUpdate,
   isEnabled = true,
   onImageUpload,
+  setTheme,
 }: {
   content: string;
   onUpdate?: (e: string) => void;
   isEnabled?: boolean;
   onImageUpload?: (files: File) => string;
+  setTheme?: () => MantineColorScheme;
 }) {
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme("light", {
+    getInitialValueInEffect: true,
+  });
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -90,6 +108,12 @@ function EditorDemo({
       onUpdate && onUpdate(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    const currentTheme = computedColorScheme === "light" ? "dark" : "light";
+    // onThemeChange(currentTheme);
+    setColorScheme((setTheme && setTheme()) || currentTheme);
+  }, [setTheme, computedColorScheme, setColorScheme]);
 
   useEffect(() => {
     if (editor) {
@@ -198,7 +222,6 @@ function CustomImageControl({
       setIsLoading(false);
     }
     close();
-
   };
 
   const handleImageUploadUrl = (url: string) => {
@@ -333,7 +356,6 @@ function CustomImageControl({
 
 const InsertTableControl = () => {
   const { editor } = useRichTextEditorContext();
-
   const insertTable = () => {
     editor
       ?.chain()

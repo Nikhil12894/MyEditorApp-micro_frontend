@@ -1,48 +1,51 @@
 import './App.css';
 // import List from "editor_components/List";
 // import Input from "editor_components/Input";
-import ThemeChangerIcon from "editor_components/ThemeChangerIcon";
-import MantineProviderWarper from "editor_components/MantineProviderWarper";
-import Editor from "editor_components/Editor";
-import { useState } from 'react';
-import { fileToBase64 } from './util/fileUtil';
+import { Suspense } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import AppRout from './AppRout';
+import { ThemeProvider } from './theme-provider';
 function App() {
-    const [isEditorEnabled, setIsEditorEnabled] = useState(false);
 
- 
- function onUpdate(content: string) {
-   localStorage.setItem("Editor-content", content);
- }
-
- const content = localStorage.getItem("Editor-content");
-
- const handleImageUpload = async (file: File) => {
-   if (file) {
-    const data= await fileToBase64(file);
-     return data;
-   }
-   return "";
- };
   return (
-    <div>
-      <h1>Host App</h1>
-      <button onClick={() => setIsEditorEnabled((prev) => !prev)}>
-        EnableDisableEditor
-      </button>
-      <MantineProviderWarper>
-        <ThemeChangerIcon
-          onThemeChange={(theme: string) => console.log(theme)}
-        />
+    // <MantineProviderWarper>
+    //   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    //     <div className="container">
+    //       <h1 className="title text-center justify-self-center text-4xl my-auto font-bold">
+    //         Host App
+    //       </h1>
+    //       <div className="flex justify-center items-center">
+    //         <Button
+    //           onClick={() => setIsEditorEnabled((prev) => !prev)}
+    //           className="m-2 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-slate-200 text-white dark:text-slate-900"
+    //         >
+    //           EnableDisableEditor
+    //         </Button>
 
-        {/* <EditorComponent
-          content={content ?? ""}
-          isEnabled={isEditorEnabled}
-          onUpdate={(e: string) => onUpdate(e)}
-        /> */}
+    //         <ThemeChangerIcon
+    //           onThemeChange={(theme) => {console.log(theme); setTheme(theme)}}
+    //         />
+    //       </div>
+    //       {/* <EditorComponent
+    //       content={content ?? ""}
+    //       isEnabled={isEditorEnabled}
+    //       onUpdate={(e: string) => onUpdate(e)}
+    //     /> */}
 
-        <Editor content={content ?? ""} onUpdate={(e: string) => onUpdate(e)}  isEnabled={isEditorEnabled} onImageUpload={(file: File) => handleImageUpload(file)}/>  
-      </MantineProviderWarper>
-    </div>
+    //       <Editor
+    //         content={content ?? ""}
+    //         onUpdate={(e: string) => onUpdate(e)}
+    //         isEnabled={isEditorEnabled}
+    //         onImageUpload={(file: File) => handleImageUpload(file)}
+    //       />
+    //     </div>
+    //   </ThemeProvider>
+    // </MantineProviderWarper>
+    <ThemeProvider defaultTheme="dark" storageKey="app-theme">
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={AppRout}></RouterProvider>
+      </Suspense>
+    </ThemeProvider>
   );
 }
 
