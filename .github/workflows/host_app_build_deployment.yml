@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: cdk8s
+        working-directory: host_app_cdk8s
     steps:
       # - name: print pwd
       #   run: pwd
