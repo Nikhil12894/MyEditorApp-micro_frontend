@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const AppEditor = () => {
         const [isEditorEnabled] = useState(true);
-            const { theme } = useTheme();
+        const { theme } = useTheme();
 
 
  function onUpdate(content: string) {
