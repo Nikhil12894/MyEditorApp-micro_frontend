@@ -82,7 +82,7 @@ export class MyChart extends Chart {
       ingressName,
       this.getIngressSpec({
         path: "",
-        host: "app_editor.learnwithnk.in",
+        host: "app-editor.learnwithnk.in",
         name: id,
         port: 80,
         serviceName: serviceName,
