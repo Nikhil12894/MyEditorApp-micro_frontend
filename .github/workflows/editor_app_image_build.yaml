@@ -30,7 +30,9 @@ jobs:
   push_to_registry:
     name: Editor App Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: Editor_app
     permissions:
       packages: write
       contents: read
@@ -56,7 +58,7 @@ jobs:
         id: push
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
-          context: ./Editor_app
+          context: .
           file: ./Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}:${{env.IMAGE_VERSION}}
