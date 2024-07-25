@@ -18,9 +18,6 @@ on:
       # - "cdk8s/consents.ts"
       - ".github/workflows/docker_build_and_push.yaml"
 
-defaults:
-  run:
-    working-directory: ./Editor_app
 env:
   REGISTRY: nikhil12894
   IMAGE_NAME: editor-app
@@ -32,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Editor_app
+        working-directory: ./Editor_app
     permissions:
       packages: write
       contents: read
