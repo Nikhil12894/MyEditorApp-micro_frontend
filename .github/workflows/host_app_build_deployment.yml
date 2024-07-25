@@ -46,7 +46,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact
+          name: micro-frontend-build-artifact
           path: ${{ github.workspace }}/cdk8s/dist/${{ env.MENIFEST_FILE_NAME}} # Adjust the path to your generated YAML file
 
   update:
@@ -57,7 +57,7 @@ jobs:
       - name: Download build artifacts from the build job
         uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: micro-frontend-build-artifact
       - name: Read data
         run: cat ${{ github.workspace }}/${{ env.MENIFEST_FILE_NAME}}
 
