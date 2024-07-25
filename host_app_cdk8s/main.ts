@@ -49,12 +49,6 @@ export class MyChart extends Chart {
                 name: `${id}-container`,
                 image: `docker.io/nikhil12894/${IMAGE_NAME}:${IMAGE_VERSION}`,
                 ports: [{ containerPort: 80 }],
-                env: [
-                  {
-                    name: "EDITOR_COMPONENTS_URL",
-                    value: EDITOR_COMPONENTS_URL,
-                  },
-                ],
               },
             ],
           },
