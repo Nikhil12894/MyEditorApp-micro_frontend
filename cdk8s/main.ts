@@ -76,66 +76,66 @@ export class MyChart extends Chart {
       },
     });
     // create ingress
-    // const ingressName = `${id}-ingress`;
-    // new KubeIngress(
-    //   this,
-    //   ingressName,
-    //   this.getIngressSpec({
-    //     path: "",
-    //     host: "app_editor.learnwithnk.in",
-    //     name: id,
-    //     port: 80,
-    //     serviceName: serviceName,
-    //     pathType: "Prefix",
-    //     labels: label,
-    //   })
-    // );
+    const ingressName = `${id}-ingress`;
+    new KubeIngress(
+      this,
+      ingressName,
+      this.getIngressSpec({
+        path: "",
+        host: "app_editor.learnwithnk.in",
+        name: id,
+        port: 80,
+        serviceName: serviceName,
+        pathType: "Prefix",
+        labels: label,
+      })
+    );
   }
 
-  // getIngressSpec(ingressProps: MyIngressProps): KubeIngressProps {
-  //   return {
-  //     metadata: {
-  //       name: `${ingressProps.name}-ingress`,
-  //       namespace: "default",
-  //       labels: ingressProps.labels,
-  //       annotations: {
-  //         "cert-manager.io/cluster-issuer": "lets-encrypt",
-  //       },
-  //     },
-  //     spec: {
-  //       ingressClassName: "public",
-  //       rules: [
-  //         {
-  //           host: ingressProps.host,
-  //           http: {
-  //             paths: [
-  //               {
-  //                 path: `/${ingressProps.path}`,
-  //                 backend: {
-  //                   service: {
-  //                     name: ingressProps.serviceName || ingressProps.name,
-  //                     port: {
-  //                       number: ingressProps.port,
-  //                     },
-  //                   },
-  //                 },
-  //                 pathType: ingressProps.pathType || "Prefix",
-  //               },
-  //             ],
-  //           },
-  //         },
-  //       ],
-  //       tls: [
-  //         {
-  //           hosts: [ingressProps.host],
-  //           secretName: `${ingressProps.name}-tls`,
-  //         },
-  //       ],
-  //     },
-  //   };
-  // }
+  getIngressSpec(ingressProps: MyIngressProps): KubeIngressProps {
+    return {
+      metadata: {
+        name: `${ingressProps.name}-ingress`,
+        namespace: "default",
+        labels: ingressProps.labels,
+        annotations: {
+          "cert-manager.io/cluster-issuer": "lets-encrypt",
+        },
+      },
+      spec: {
+        ingressClassName: "public",
+        rules: [
+          {
+            host: ingressProps.host,
+            http: {
+              paths: [
+                {
+                  path: `/${ingressProps.path}`,
+                  backend: {
+                    service: {
+                      name: ingressProps.serviceName || ingressProps.name,
+                      port: {
+                        number: ingressProps.port,
+                      },
+                    },
+                  },
+                  pathType: ingressProps.pathType || "Prefix",
+                },
+              ],
+            },
+          },
+        ],
+        tls: [
+          {
+            hosts: [ingressProps.host],
+            secretName: `${ingressProps.name}-tls`,
+          },
+        ],
+      },
+    };
+  }
 }
 
 const app = new App();
-new MyChart(app, "editor-app");
+new MyChart(app, "editor-root");
 app.synth();
