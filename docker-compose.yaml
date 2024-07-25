@@ -8,7 +8,7 @@ services:
   host-app:
     image: host-app
     environment:
-      EDITOR_COMPONENTS_URL: 'http://editor-app/assets/remoteEntry.js'
+      VITE_EDITOR_COMPONENTS_URL: 'http://editor-app/assets/remoteEntry.js'
     ports:
       - '4173:80'
     expose:
