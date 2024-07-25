@@ -16,7 +16,7 @@ on:
       - "Editor_app/**"
       # - "cdk8s/main.ts"
       # - "cdk8s/consents.ts"
-      - ".github/workflows/docker_build_and_push.yaml"
+      - ".github/workflows/editor_app_image_build.yaml"
 
 env:
   REGISTRY: nikhil12894
