@@ -10,7 +10,8 @@ export default defineConfig({
     federation({
       name: "host-app",
       remotes: {
-        editor_components: "http://editor-root-service/assets/remoteEntry.js",
+        editor_components:
+          "https://app-editor.learnwithnk.in/assets/remoteEntry.js",
       },
       shared: ["react", "react-dom"],
     }),
