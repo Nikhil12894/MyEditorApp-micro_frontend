@@ -23,7 +23,7 @@ const AppLanding = ({children}:{children:React.ReactNode}) => {
     ));
     return (
       <div className="w-screen h-screen bg-background">
-        <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+        <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link
               to="/"
@@ -114,7 +114,10 @@ const AppLanding = ({children}:{children:React.ReactNode}) => {
             </DropdownMenu>
           </div>
         </header>
-        <main>{children}</main>
+        <main className="flex-1  bg-transparent">{children}</main>
+        {/* <footer className="py-5 bg-gray-700 text-center text-white">
+          Tailwind is Awesome 😎
+        </footer> */}
       </div>
     );
 }
