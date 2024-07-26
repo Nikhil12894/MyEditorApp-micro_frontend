@@ -7,7 +7,7 @@ import {
   KubeIngressProps,
   KubeService,
 } from "./imports/k8s";
-import { EDITOR_COMPONENTS_URL, IMAGE_NAME, IMAGE_VERSION, INGRESS_HOST } from "./consents";
+import {  IMAGE_NAME, IMAGE_VERSION, INGRESS_HOST } from "./consents";
 interface MyIngressProps {
   path: string;
   host: string;

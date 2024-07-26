@@ -1,17 +1,15 @@
 version: '3.7'
 
 services:
-  editor-app:
-    image: editor-app
-    # ports:
-    #   - '3000:80'
+  # editor-app:
+  #   image: editor-app
+  #   # ports:
+  #   #   - '3000:80'
   host-app:
     image: host-app
-    environment:
-      VITE_EDITOR_COMPONENTS_URL: 'http://editor-app/assets/remoteEntry.js'
     ports:
       - '4173:80'
     expose:
       - '4173'
-    depends_on:
-      - editor-app
+    # depends_on:
+    #   - editor-app
