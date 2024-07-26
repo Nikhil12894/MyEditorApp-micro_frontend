@@ -23,7 +23,7 @@ const AppEditorReadOnly = () => {
 
     return (
       <MantineProviderWarper>
-        <div className="container max-h-96" >
+        <div className="w-screen max-h-96 md:container">
           <Editor
             content={content ?? exampleContent}
             onUpdate={(e: string) => onUpdate(e)}

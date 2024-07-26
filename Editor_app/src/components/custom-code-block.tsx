@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ActionIcon,
-  Badge,
   CopyButton,
   rem,
   Select,
@@ -38,9 +37,9 @@ const CustomCodeBlock = (props:any) => {
               />
             ) : (
               <>
-                <Badge color="gray" variant="outline">
+                {/* <Badge color="gray" variant="outline">
                   {props.node.attrs.language||"tsx"} 
-                </Badge>
+                </Badge> */}
                 <CopyButton value={props.node.textContent} timeout={2000}>
                   {({ copied, copy }) => (
                     <Tooltip

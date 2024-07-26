@@ -21,7 +21,7 @@ on:
 env:
   REGISTRY: nikhil12894
   IMAGE_NAME: editor-app
-  IMAGE_VERSION: v1.0.0
+  IMAGE_VERSION: v1.0.1
 
 jobs:
   push_to_registry:
