@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ActionIcon,
+  Badge,
   CopyButton,
   rem,
   Select,
@@ -14,11 +15,13 @@ import {
   ReactNodeViewRenderer,
 } from "@tiptap/react";
 import { useState } from "react";
-
+import "./code-block.css";
+import { v4 as uuidv4 } from "uuid";
 const CustomCodeBlock = (props:any) => {
   const [isEnabled] = useState(props.editor?.isEditable);
+
   return (
-    <NodeViewWrapper className="code-block">
+    <NodeViewWrapper className="code-block" key={uuidv4()}>
       <div className="relative p-0">
         <pre>
           <NodeViewContent as="code" />
@@ -37,21 +40,26 @@ const CustomCodeBlock = (props:any) => {
               />
             ) : (
               <>
-                {/* <Badge color="gray" variant="outline">
+                <Badge color="gray" variant="outline" key={uuidv4()}  size="xs" className="text-xs sm:text-sm">
                   {props.node.attrs.language||"tsx"} 
-                </Badge> */}
-                <CopyButton value={props.node.textContent} timeout={2000}>
+                </Badge>
+                <CopyButton
+                  value={props.node.textContent}
+                  timeout={2000}
+                  key={uuidv4()}
+                >
                   {({ copied, copy }) => (
                     <Tooltip
                       label={copied ? "Copied" : "Copy"}
                       withArrow
                       position="right"
-                      key={"copy_code"}
+                      key={uuidv4()}
                     >
                       <ActionIcon
                         color={copied ? "teal" : "gray"}
                         variant="subtle"
                         onClick={copy}
+                        key={uuidv4()}
                       >
                         {copied ? (
                           <IconCheck style={{ width: rem(16) }} />

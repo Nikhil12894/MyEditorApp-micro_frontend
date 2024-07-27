@@ -13,6 +13,9 @@ export default defineConfig(({ mode })=>{
     define: {
       // __APP_ENV__: JSON.stringify(env.APP_ENV),
     },
+    server: {
+      host: true,
+    },
     plugins: [
       react(),
       federation({
