@@ -1,5 +1,5 @@
 ### How to create Micro Frontend Using React Vite app and vite-plugin-federation
-
+![editor_demo](./editor_demo.gif)
 ### Remote app
 ### *Demo*: [Editor app](https://app-editor.learnwithnk.in/)
 1. Create a remote app from which will host the actual component.

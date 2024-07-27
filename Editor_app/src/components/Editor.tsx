@@ -77,6 +77,12 @@ const computedColorScheme = useComputedColorScheme("light", {
   getInitialValueInEffect: true,
 });
   const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class: "text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-foreground",
+      },
+    },
+
     extensions: [
       StarterKit.configure({
         codeBlock: false,
