@@ -1,5 +1,5 @@
 import { useTheme } from "@/theme-provider";
-import { fileToBase64 } from "@/util/fileUtil";
+import { fileToBase64 } from "@/lib/fileUtil";
 import Editor from "editor_components/Editor";
 import MantineProviderWarper from "editor_components/MantineProviderWarper";
 import { useState } from "react";
@@ -24,15 +24,17 @@ const AppEditor = () => {
  };
 
     return (
-      <MantineProviderWarper>
-        <Editor
-          content={content ?? exampleContent}
-          onUpdate={(e: string) => onUpdate(e)}
-          isEnabled={isEditorEnabled}
-          onImageUpload={(file: File) => handleImageUpload(file)}
-          setTheme={() => theme}
-        />
-      </MantineProviderWarper>
+      <div className="w-screen md:container">
+        <MantineProviderWarper>
+          <Editor
+            content={content ?? exampleContent}
+            onUpdate={(e: string) => onUpdate(e)}
+            isEnabled={isEditorEnabled}
+            onImageUpload={(file: File) => handleImageUpload(file)}
+            setTheme={() => theme}
+          />
+        </MantineProviderWarper>
+      </div>
     );
 }
 

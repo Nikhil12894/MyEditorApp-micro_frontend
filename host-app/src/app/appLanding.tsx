@@ -3,15 +3,17 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import { useTheme } from "@/theme-provider";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { CircleUser, Github, Linkedin, Menu, Moon, Search, Sun, Twitter } from "lucide-react";
-import { Link } from "react-router-dom";
+import { CircleUser, Github, Linkedin, LogOut, Menu, Moon, Search, Sun, Twitter } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 
 
 const AppLanding = ({children}:{children:React.ReactNode}) => {
     const { theme, setTheme } = useTheme();
+    const { pathname } = useLocation();
     const menuItems = AppRoutList.map((item) => (
       <Link
         to={item.path}
@@ -22,8 +24,13 @@ const AppLanding = ({children}:{children:React.ReactNode}) => {
       </Link>
     ));
     return (
-      <div className="bg-background h-screen">
-        <header className="sticky top-0 z-50 flex h-[10%] items-center gap-4 border-b bg-background px-4 md:px-6">
+      <div className="bg-background text-slate-950 dark:text-white mt-0.5 md:mt-0">
+        <header
+          className={cn([
+            "flex h-[5%] items-center gap-4 border-b bg-background px-4 md:px-6 ",
+            pathname !== "/editor" ? "sticky top-0 z-50" : "",
+          ])}
+        >
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link
               to="/"
@@ -44,11 +51,11 @@ const AppLanding = ({children}:{children:React.ReactNode}) => {
                 size="icon"
                 className="shrink-0 md:hidden"
               >
-                <Menu className="h-5 w-5" />
+                <Menu className="h-5 w-5 " />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="left" className="text-foreground">
               <nav className="grid gap-6 text-lg font-medium">
                 <Link
                   to="/"
@@ -89,10 +96,11 @@ const AppLanding = ({children}:{children:React.ReactNode}) => {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to={"/settings"}>Setting</Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem>Logout <LogOut className="ml-2 h-4 w-4" /></DropdownMenuItem>
                 <DropdownMenuLabel>Mode</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="justify-center">
