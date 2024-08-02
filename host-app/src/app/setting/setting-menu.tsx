@@ -6,8 +6,8 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 interface MenuProps {
   label: string;
@@ -16,14 +16,18 @@ interface MenuProps {
 }
 interface SettingMenuProps {
   menu: MenuProps[];
-  defaultSelected: string;
 }
 
 const SettingMenu = (settingMenu: SettingMenuProps) => {
-  const [selected, setSelected] = useState(settingMenu.defaultSelected);
+  const location = useLocation()
+  const [selected, setSelected] = useState<string>();
   const handleSelect = (value: string) => {
     setSelected(value);
   };
+  useEffect(() => {
+    const currentActiveMenu = settingMenu.menu.filter((item) => item.path === location.pathname)[0]?.label;
+    setSelected(currentActiveMenu);
+  }, [selected, location.pathname, settingMenu.menu]);
   return (
     <>
       {/* For Small Screen */}
