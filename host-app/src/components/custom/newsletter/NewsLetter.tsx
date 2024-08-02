@@ -1,4 +1,3 @@
-import React from 'react'
 
 /**
  * Our NewsLetter is a reusable UI component that used to take user email.

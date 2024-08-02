@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 /**
  * Our PostCard is a reusable UI component used to display a post as a card format.

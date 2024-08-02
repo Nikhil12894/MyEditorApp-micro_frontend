@@ -1,4 +1,3 @@
-import React from 'react'
 
 /**
  * Our Advertisement section can be used to provide various adds on a site.
