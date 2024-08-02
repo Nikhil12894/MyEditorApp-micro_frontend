@@ -1,5 +1,5 @@
 import { useTheme } from "@/theme-provider";
-import { fileToBase64 } from "@/util/fileUtil";
+import { fileToBase64 } from "@/lib/fileUtil";
 import Editor from "editor_components/Editor";
 import MantineProviderWarper from "editor_components/MantineProviderWarper";
 

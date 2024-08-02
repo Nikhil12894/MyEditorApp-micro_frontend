@@ -1,19 +1,33 @@
-import { BookText, FilePenLine, PlaneLanding } from "lucide-react";
-import AppEditor from "./app/editor";
-import { AppRoutProps } from "./AppRoutType";
-import Landing from "./app/landing";
+import { Bell, BookText, FilePenLine, Home, UserRound, UserRoundCog, Users } from "lucide-react";
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import AppLanding from "./app/appLanding";
+import BlogListing from "./app/blog_app/all-blogs-comp";
+import HomeComp from "./app/blog_app/home-comp";
+import AppEditor from "./app/editor";
+import { AppRoutProps } from "./AppRoutType";
 import AppEditorReadOnly from "./app/editor_readonly";
+import Author from "./app/blog_app/author-comp";
+import Account from "./app/setting/account";
+import AccountSetting from "./app/setting/account-setting";
+import ProfileSetting from "./app/setting/profile-setting";
+import NotificationSetting from "./app/setting/notification-setting";
+import UserSetting from "./app/setting/user-setting";
 
 const AppRoutList: AppRoutProps[] = [
   {
-    element: <Landing />,
-    path: "/landing",
-    label: "Landing",
-    icon: <PlaneLanding className="w-4 h-4" />,
-    id: "landing",
+    element: <HomeComp />,
+    path: "/home",
+    label: "Home",
+    icon: <Home className="w-4 h-4" />,
+    id: "home",
   },
+  // {
+  //   element: <Landing />,
+  //   path: "/landing",
+  //   label: "Landing",
+  //   icon: <PlaneLanding className="w-4 h-4" />,
+  //   id: "landing",
+  // },
   {
     element: <AppEditor />,
     path: "/editor",
@@ -22,7 +36,7 @@ const AppRoutList: AppRoutProps[] = [
     id: "editor",
   },
   {
-    element: <AppEditorReadOnly />,
+    element: <BlogListing />,
     path: "/blog",
     label: "Blog",
     icon: <BookText className="w-4 h-4" />,
@@ -30,14 +44,50 @@ const AppRoutList: AppRoutProps[] = [
   },
 ];
 
+const AccountSettingRoute: AppRoutProps[] = [
+  {
+    element: <AccountSetting />,
+    path: "/settings/account",
+    label: "Account",
+    icon: <UserRoundCog className="w-4 h-4" />,
+    id: "account",
+  },
+  {
+    element: <ProfileSetting />,
+    path: "/settings/profile",
+    label: "Profile",
+    icon: <UserRound className="w-4 h-4" />,
+    id: "profile",
+  },
+  {
+    element: <NotificationSetting />,
+    path: "/settings/notification",
+    label: "Notification",
+    icon: <Bell className="w-4 h-4" />,
+    id: "notification",
+  },
+  {
+    element: <UserSetting />,
+    path: "/settings/users",
+    label: "Users",
+    icon: <Users className="w-4 h-4" />,
+    id: "users",
+  },
+];
+  
+
 const AppRout = createBrowserRouter([
   {
     path: "/",
-    element: <AppLanding><Outlet /></AppLanding>,
+    element: (
+      <AppLanding>
+        <Outlet />
+      </AppLanding>
+    ),
     children: [
       {
         index: true,
-        element: <Navigate to="landing" />,
+        element: <Navigate to="home" />,
       },
       ...AppRoutList.map((item) => {
         return {
@@ -45,9 +95,41 @@ const AppRout = createBrowserRouter([
           element: item.element,
         };
       }),
+      {
+        path: "single-post",
+        element: <AppEditorReadOnly />,
+      },
+      {
+        path: "author",
+        element: <Author />,
+      },
+      {
+        path: "settings",
+        element: (
+          <Account>
+            <Outlet />
+          </Account>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Navigate to="account" />,
+          },
+          ...AccountSettingRoute.map((item) => {
+            return {
+              path: item.path,
+              element: item.element,
+            };
+          }),
+        ],
+      },
+      {
+        path: "*",
+        element: <Navigate to="home" />,
+      },
     ],
   },
 ]);
 
 export default AppRout;
-export { AppRoutList }
+export { AppRoutList, AccountSettingRoute };
