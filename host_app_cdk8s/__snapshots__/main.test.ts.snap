@@ -1,3 +1,120 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Placeholder Empty 1`] = `Array []`;
+exports[`Placeholder Empty 1`] = `
+Array [
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "test-chart-app",
+        "sha": "will_be_Replaced",
+        "version": "1.0.0",
+      },
+      "name": "test-chart",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app": "test-chart-app",
+          "version": "1.0.0",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "test-chart-app",
+            "version": "1.0.0",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "image": "docker.io/nikhil12894/micro-frontend-host-app:v1.0.7",
+              "name": "test-chart-container",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "test-chart-app",
+        "version": "1.0.0",
+      },
+      "name": "test-chart-service",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "protocol": "TCP",
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "app": "test-chart-app",
+        "version": "1.0.0",
+      },
+      "type": "ClusterIP",
+    },
+  },
+  Object {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": Object {
+      "annotations": Object {
+        "cert-manager.io/cluster-issuer": "lets-encrypt",
+      },
+      "labels": Object {
+        "app": "test-chart-app",
+        "version": "1.0.0",
+      },
+      "name": "test-chart-ingress",
+      "namespace": "default",
+    },
+    "spec": Object {
+      "ingressClassName": "public",
+      "rules": Array [
+        Object {
+          "host": "nkblog.explorewithnk.com",
+          "http": Object {
+            "paths": Array [
+              Object {
+                "backend": Object {
+                  "service": Object {
+                    "name": "test-chart-service",
+                    "port": Object {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+      "tls": Array [
+        Object {
+          "hosts": Array [
+            "nkblog.explorewithnk.com",
+          ],
+          "secretName": "test-chart-tls",
+        },
+      ],
+    },
+  },
+]
+`;
