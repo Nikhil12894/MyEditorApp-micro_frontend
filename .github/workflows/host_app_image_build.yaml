@@ -21,7 +21,7 @@ on:
 env:
   REGISTRY: nikhil12894
   IMAGE_NAME: micro-frontend-host-app
-  IMAGE_VERSION: v1.0.7
+  IMAGE_VERSION: v1.0.8
 
 jobs:
   push_to_registry:
