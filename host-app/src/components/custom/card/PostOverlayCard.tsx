@@ -1,5 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import AuthorAvatar from "@/app/components/AuthorAvatar";
 import { Badge } from "@/components/ui/badge";
+import {defaultBlogModel} from "@/app/model/BlogModel";
 
 /**
  * Our PostOverlayCard is a reusable UI component used to display a post as a card format.
@@ -18,7 +19,7 @@ const PostOverlayCard = () => {
           width="1216"
           height="450"
           alt={`banner_image`}
-          src="1674916984257.jpeg"
+          src={defaultBlogModel.imageUrl}
           className="rounded-xl w-full h-[450px]"
         />
       </figure>
@@ -26,32 +27,33 @@ const PostOverlayCard = () => {
         {/* <div className="w-fit px-2.5 py-1 text-xs md:text-sm rounded-md mb-4 font-medium text-slate-950 dark:text-white bg-slate-500">
           Technology
         </div> */}
-        <Badge variant="secondary">Technology</Badge>
+        {
+          defaultBlogModel.tags.map((tag, index) => (
+            <Badge key={index} variant="secondary">{tag}</Badge>
+          ))
+        } 
         <h3>
           <a
             href="/"
             className="text-base-content font-semibold text-xl md:text-2xl lg:text-4xl leading-5 md:leading-10 hover:text-cyan-500 transition-all hover:duration-500"
           >
-            The Impact of Technology on the Workplace: How Technology is
-            Changing
+            {defaultBlogModel.title}
           </a>
         </h3>
         <div className="mt-3 md:mt-6 flex items-center gap-5 text-neutral-content">
           <div className=" flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src="https://placehold.it/100x100" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            {/* Added overflow-hidden */}
+            <AuthorAvatar user={{ name: defaultBlogModel.authorName, picture: defaultBlogModel.authorAvatar }} />
             <h5>
               <a
                 href="/author"
                 className="text-xs md:text-base font-medium hover:text-primary transition hover:duration-300"
               >
-                Jason Francisco
+                {defaultBlogModel.authorName}
               </a>
             </h5>
           </div>
-          <p className=" text-xs md:text-base">August 20, 2022</p>
+          <p className=" text-xs md:text-base">{defaultBlogModel.createdAt}</p>
         </div>
       </div>
 

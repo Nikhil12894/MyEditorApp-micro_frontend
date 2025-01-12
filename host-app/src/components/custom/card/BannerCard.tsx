@@ -1,4 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import AuthorAvatar from '@/app/components/AuthorAvatar';
+// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 
@@ -33,10 +34,12 @@ const BannerCard = () => {
          </h3>
          <div className="mt-6 flex items-center gap-5">
            <div className=" flex items-center gap-3">
-             <Avatar>
+             {/* <Avatar>
                <AvatarImage src="https://placehold.it/100x100" />
                <AvatarFallback>CN</AvatarFallback>
-             </Avatar>
+             </Avatar> */}
+             {/* Added overflow-hidden */}
+             <AuthorAvatar user={{ name: "John Doe", picture: "" }} />
              <h6>
                <Link
                  to="/author"

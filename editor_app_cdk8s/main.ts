@@ -76,20 +76,20 @@ export class MyChart extends Chart {
       },
     });
     // create ingress
-    const ingressName = `${id}-ingress`;
-    new KubeIngress(
-      this,
-      ingressName,
-      this.getIngressSpec({
-        path: "",
-        host: "app-editor.learnwithnk.in",
-        name: id,
-        port: 80,
-        serviceName: serviceName,
-        pathType: "Prefix",
-        labels: label,
-      })
-    );
+    // const ingressName = `${id}-ingress`;
+    // new KubeIngress(
+    //   this,
+    //   ingressName,
+    //   this.getIngressSpec({
+    //     path: "",
+    //     host: "editor.explorewithnk.com",
+    //     name: id,
+    //     port: 80,
+    //     serviceName: serviceName,
+    //     pathType: "Prefix",
+    //     labels: label,
+    //   })
+    // );
   }
 
   getIngressSpec(ingressProps: MyIngressProps): KubeIngressProps {

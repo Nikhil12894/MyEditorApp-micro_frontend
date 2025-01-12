@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import AppRout from './AppRout';
 import { ThemeProvider } from './theme-provider';
+import { AuthProvider } from './app/context/AuthContext';
 function App() {
 
   return (
@@ -43,7 +44,9 @@ function App() {
     // </MantineProviderWarper>
     <ThemeProvider defaultTheme="dark" storageKey="app-theme">
       <Suspense fallback={<div>Loading...</div>}>
+      <AuthProvider>
         <RouterProvider router={AppRout}></RouterProvider>
+        </AuthProvider>
       </Suspense>
     </ThemeProvider>
   );

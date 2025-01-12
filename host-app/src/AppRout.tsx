@@ -12,6 +12,7 @@ import AccountSetting from "./app/setting/account-setting";
 import ProfileSetting from "./app/setting/profile-setting";
 import NotificationSetting from "./app/setting/notification-setting";
 import UserSetting from "./app/setting/user-setting";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutList: AppRoutProps[] = [
   {
@@ -106,9 +107,11 @@ const AppRout = createBrowserRouter([
       {
         path: "settings",
         element: (
+          <ProtectedRoute>
           <Account>
             <Outlet />
           </Account>
+          </ProtectedRoute>
         ),
         children: [
           {
