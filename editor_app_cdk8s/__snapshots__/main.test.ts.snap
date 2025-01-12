@@ -1,3 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Placeholder Empty 1`] = `Array []`;
+exports[`Placeholder Empty 1`] = `
+Array [
+  Object {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": Object {
+      "labels": Object {
+        "app": "test-chart-app",
+        "sha": "will_be_Replaced",
+        "version": "1.0.0",
+      },
+      "name": "test-chart",
+    },
+    "spec": Object {
+      "replicas": 1,
+      "selector": Object {
+        "matchLabels": Object {
+          "app": "test-chart-app",
+          "version": "1.0.0",
+        },
+      },
+      "template": Object {
+        "metadata": Object {
+          "labels": Object {
+            "app": "test-chart-app",
+            "version": "1.0.0",
+          },
+        },
+        "spec": Object {
+          "containers": Array [
+            Object {
+              "image": "docker.io/nikhil12894/editor-app:v1.0.2",
+              "name": "test-chart-container",
+              "ports": Array [
+                Object {
+                  "containerPort": 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": Object {
+      "labels": Object {
+        "app": "test-chart-app",
+        "version": "1.0.0",
+      },
+      "name": "test-chart-service",
+    },
+    "spec": Object {
+      "ports": Array [
+        Object {
+          "port": 80,
+          "protocol": "TCP",
+          "targetPort": 80,
+        },
+      ],
+      "selector": Object {
+        "app": "test-chart-app",
+        "version": "1.0.0",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
