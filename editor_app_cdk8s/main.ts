@@ -3,18 +3,20 @@ import { Construct } from "constructs";
 import {
   IntOrString,
   KubeDeployment,
+  KubeIngress,
+  KubeIngressProps,
   KubeService,
 } from "./imports/k8s";
 import { IMAGE_VERSION } from "./consents";
-// interface MyIngressProps {
-//   path: string;
-//   host: string;
-//   name: string;
-//   port: number;
-//   pathType?: string;
-//   labels?: { [key: string]: string };
-//   serviceName?: string;
-// }
+interface MyIngressProps {
+  path: string;
+  host: string;
+  name: string;
+  port: number;
+  pathType?: string;
+  labels?: { [key: string]: string };
+  serviceName?: string;
+}
 
 export class MyChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = {}) {
@@ -74,64 +76,64 @@ export class MyChart extends Chart {
       },
     });
     // create ingress
-    // const ingressName = `${id}-ingress`;
-    // new KubeIngress(
-    //   this,
-    //   ingressName,
-    //   this.getIngressSpec({
-    //     path: "",
-    //     host: "editor.explorewithnk.com",
-    //     name: id,
-    //     port: 80,
-    //     serviceName: serviceName,
-    //     pathType: "Prefix",
-    //     labels: label,
-    //   })
-    // );
+    const ingressName = `${id}-ingress`;
+    new KubeIngress(
+      this,
+      ingressName,
+      this.getIngressSpec({
+        path: "",
+        host: "editor.explorewithnk.com",
+        name: id,
+        port: 80,
+        serviceName: serviceName,
+        pathType: "Prefix",
+        labels: label,
+      })
+    );
   }
 
-  // getIngressSpec(ingressProps: MyIngressProps): KubeIngressProps {
-  //   return {
-  //     metadata: {
-  //       name: `${ingressProps.name}-ingress`,
-  //       namespace: "default",
-  //       labels: ingressProps.labels,
-  //       annotations: {
-  //         "cert-manager.io/cluster-issuer": "lets-encrypt",
-  //       },
-  //     },
-  //     spec: {
-  //       ingressClassName: "public",
-  //       rules: [
-  //         {
-  //           host: ingressProps.host,
-  //           http: {
-  //             paths: [
-  //               {
-  //                 path: `/${ingressProps.path}`,
-  //                 backend: {
-  //                   service: {
-  //                     name: ingressProps.serviceName || ingressProps.name,
-  //                     port: {
-  //                       number: ingressProps.port,
-  //                     },
-  //                   },
-  //                 },
-  //                 pathType: ingressProps.pathType || "Prefix",
-  //               },
-  //             ],
-  //           },
-  //         },
-  //       ],
-  //       tls: [
-  //         {
-  //           hosts: [ingressProps.host],
-  //           secretName: `${ingressProps.name}-tls`,
-  //         },
-  //       ],
-  //     },
-  //   };
-  // }
+  getIngressSpec(ingressProps: MyIngressProps): KubeIngressProps {
+    return {
+      metadata: {
+        name: `${ingressProps.name}-ingress`,
+        namespace: "default",
+        labels: ingressProps.labels,
+        annotations: {
+          "cert-manager.io/cluster-issuer": "lets-encrypt",
+        },
+      },
+      spec: {
+        ingressClassName: "public",
+        rules: [
+          {
+            host: ingressProps.host,
+            http: {
+              paths: [
+                {
+                  path: `/${ingressProps.path}`,
+                  backend: {
+                    service: {
+                      name: ingressProps.serviceName || ingressProps.name,
+                      port: {
+                        number: ingressProps.port,
+                      },
+                    },
+                  },
+                  pathType: ingressProps.pathType || "Prefix",
+                },
+              ],
+            },
+          },
+        ],
+        tls: [
+          {
+            hosts: [ingressProps.host],
+            secretName: `${ingressProps.name}-tls`,
+          },
+        ],
+      },
+    };
+  }
 }
 
 const app = new App();
