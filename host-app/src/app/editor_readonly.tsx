@@ -2,44 +2,40 @@ import { useTheme } from "@/theme-provider";
 import { fileToBase64 } from "@/lib/fileUtil";
 import Editor from "editor_components/Editor";
 import MantineProviderWarper from "editor_components/MantineProviderWarper";
-import PostCard from "@/components/custom/card/PostCard";
-import { Button } from "@/components/ui/button";
 
 const AppEditorReadOnly = () => {
-        const { theme } = useTheme();
+  const { theme } = useTheme();
 
+  function onUpdate(content: string) {
+    localStorage.setItem("Editor-content", content);
+  }
 
- function onUpdate(content: string) {
-   localStorage.setItem("Editor-content", content);
- }
+  const content = localStorage.getItem("Editor-content");
 
- const content = localStorage.getItem("Editor-content");
+  const handleImageUpload = async (file: File) => {
+    if (file) {
+      const data = await fileToBase64(file);
+      return data;
+    }
+    return "";
+  };
 
- const handleImageUpload = async (file: File) => {
-   if (file) {
-    const data= await fileToBase64(file);
-     return data;
-   }
-   return "";
- };
-
-    return (
-      <MantineProviderWarper>
-        <div className="w-screen md:container">
-          <Editor
-            content={content ?? exampleContent}
-            onUpdate={(e: string) => onUpdate(e)}
-            isEnabled={false}
-            onImageUpload={(file: File) => handleImageUpload(file)}
-            setTheme={() => theme}
-          />
-        </div>
-      </MantineProviderWarper>
-    );
-}
+  return (
+    <MantineProviderWarper>
+      <div className="w-screen md:container">
+        <Editor
+          content={content ?? exampleContent}
+          onUpdate={(e: string) => onUpdate(e)}
+          isEnabled={false}
+          onImageUpload={(file: File) => handleImageUpload(file)}
+          setTheme={() => theme}
+        />
+      </div>
+    </MantineProviderWarper>
+  );
+};
 
 export default AppEditorReadOnly;
-
 
 const exampleContent = `<h4 style="text-align: center">How to create Micro Frontend Using React Vite app and vite-plugin-federation</h4><img src="https://github.com/Nikhil12894/MyEditorApp-micro_frontend/raw/main/editor_demo.gif" style="width: 653px; height: auto; cursor: pointer; margin: 0px auto;" draggable="true"><h4><strong>Remote app</strong></h4><h4><em>Demo</em>: <a target="_blank" rel="noopener noreferrer nofollow" href="https://app-editor.learnwithnk.in/">Editor app</a></h4><ol><li><p>Create a remote app from which you will host the actual component.</p></li></ol><p>Install vite-plugin-federation plugin</p><p><code>npm install -D @originjs/vite-plugin-federation</code></p><ol start="2"><li><p>Create your components. ie <code>DemoComponent</code></p></li><li><p>Add this demo component in the vite config to be exported along with other configs.</p></li></ol><p>In <code>vite.config.ts</code></p><pre><code>import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
@@ -131,9 +127,8 @@ public class GroupApi {
 
 }</code></pre>`;
 
-
-
-{/* <MantineProviderWarper>
+{
+  /* <MantineProviderWarper>
 <div className="flex flex-col md:flex-row w-full min-h-screen"> 
   <div className="md:w-3/5 p-4"> 
      <div className="w-screen md:container">
@@ -209,4 +204,5 @@ public class GroupApi {
 
   </div>
 </div>
-</MantineProviderWarper> */}
+</MantineProviderWarper> */
+}
